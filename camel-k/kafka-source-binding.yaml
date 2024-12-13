@@ -1,0 +1,23 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: KameletBinding
+metadata:
+  name: kafka-source-binding
+spec:
+  source:
+    ref:
+      kind: Kamelet
+      apiVersion: camel.apache.org/v1alpha1
+      name: kafka-source
+    properties:
+      bootstrapServers: event-broker-dr-kafka-bootstrap.appdev-kafka.svc:9092
+      topic: my-topic
+      user: kuser
+      password: Secret123
+      securityProtocol: PLAINTEXT
+  sink:
+    ref:
+      kind: Kamelet
+      apiVersion: camel.apache.org/v1alpha1
+      name: log-sink
+    properties:
+      showStreams: true

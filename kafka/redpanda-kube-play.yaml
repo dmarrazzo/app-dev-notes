@@ -1,0 +1,78 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.3.1
+
+# NOTE: The namespace sharing for a pod has been modified by the user and is not the same as the
+# default settings for kubernetes. This can lead to unexpected behavior when running the generated
+# kube yaml in a kubernetes cluster.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.kubernetes.cri-o.SandboxID/redpanda-0: 156b4d9f21d218cf10baac9fb2a25508e51dc76d5f7fa4484762781e18d6df87
+    io.kubernetes.cri-o.SandboxID/redpanda-console: 156b4d9f21d218cf10baac9fb2a25508e51dc76d5f7fa4484762781e18d6df87
+  creationTimestamp: "2024-12-05T16:08:24Z"
+  labels:
+    app: podredpanda-quickstart-one-broker
+  name: podredpanda-quickstart-one-broker
+spec:
+  containers:
+  - args:
+    - redpanda
+    - start
+    - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+    - --advertise-kafka-addr internal://redpanda-0:9092,external://localhost:19092
+    - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:18082
+    - --advertise-pandaproxy-addr internal://redpanda-0:8082,external://localhost:18082
+    - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:18081
+    - --rpc-addr redpanda-0:33145
+    - --advertise-rpc-addr redpanda-0:33145
+    - --mode dev-container
+    - --smp 1
+    - --default-log-level=info
+    image: docker.redpanda.com/redpandadata/redpanda:v24.2.12
+    name: redpanda-0
+    ports:
+    - containerPort: 18081
+      hostPort: 18081
+    - containerPort: 18082
+      hostPort: 18082
+    - containerPort: 19092
+      hostPort: 19092
+    - containerPort: 9644
+      hostPort: 19644
+    securityContext: {}
+    volumeMounts:
+    - mountPath: /var/lib/redpanda/data
+      name: redpanda-quickstart-one-broker_redpanda-0-pvc
+  - args:
+    - -c
+    - echo "$CONSOLE_CONFIG_FILE" > /tmp/config.yml; /app/console
+    command:
+    - /bin/sh
+    env:
+    - name: CONSOLE_CONFIG_FILE
+      value: |
+        kafka:
+          brokers: ["redpanda-0:9092"]
+          schemaRegistry:
+            enabled: true
+            urls: ["http://redpanda-0:8081"]
+        redpanda:
+          adminApi:
+            enabled: true
+            urls: ["http://redpanda-0:9644"]
+    - name: CONFIG_FILEPATH
+      value: /tmp/config.yml
+    image: docker.redpanda.com/redpandadata/console:v2.7.2
+    name: redpanda-console
+    ports:
+    - containerPort: 8080
+      hostPort: 9090
+    securityContext: {}
+  volumes:
+  - name: redpanda-quickstart-one-broker_redpanda-0-pvc
+    persistentVolumeClaim:
+      claimName: redpanda-quickstart-one-broker_redpanda-0

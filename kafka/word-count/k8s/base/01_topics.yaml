@@ -1,0 +1,28 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    app: word-count
+    strimzi.io/cluster: my-cluster
+  name: word-count-input
+  namespace: kafka-demo
+spec:
+  config:
+    segment.bytes: 100000
+  partitions: 12
+  replicas: 3
+---
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    app: word-count
+    strimzi.io/cluster: my-cluster
+  name: word-count-output
+  namespace: kafka-demo
+spec:
+  config:
+    segment.bytes: 100000
+  partitions: 12
+  replicas: 3

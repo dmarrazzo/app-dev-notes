@@ -1,0 +1,19 @@
+kind: KameletBinding
+apiVersion: camel.apache.org/v1alpha1
+metadata:
+  name: timer-source-binding
+  annotations:
+    trait.camel.apache.org/prometheus.enabled: "true"
+spec:
+  source:
+    ref:
+      kind: Kamelet
+      apiVersion: camel.apache.org/v1alpha1
+      name: timer-source
+    properties:
+      message: timer
+  sink:
+    ref:
+      kind: Kamelet
+      apiVersion: camel.apache.org/v1alpha1
+      name: log-sink      

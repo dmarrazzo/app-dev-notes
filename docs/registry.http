@@ -1,0 +1,49 @@
+@BASE_URL=example-apicurioregistry-kafkasql.kafka.router-default.apps.ocp4.dmshift.eu/apis/registry/v2
+
+###
+# @name searchArtifacts
+GET http://{{BASE_URL}}/search/artifacts
+
+@id={{searchArtifacts.response.body.$.artifacts[0].id}}
+
+
+###
+
+http://{{BASE_URL}}/ids/contentIds/{{id}}/
+
+###
+http://{{BASE_URL}}/groups/default/artifacts/{{id}}
+
+###
+# artifact versions
+http://{{BASE_URL}}/groups/default/artifacts/{{id}}/versions
+
+#################################################################################
+# confluent compat
+
+@CBASE_URL=example-apicurioregistry-kafkasql.kafka.router-default.apps.ocp4.dmshift.eu/apis/ccompat/v6
+
+###
+# Get the schema types that are registered with Schema Registry
+GET http://{{CBASE_URL}}/schemas/types
+Content-Type: application/json
+
+### 
+# @name getSubjects
+GET http://{{CBASE_URL}}/subjects
+Content-Type: application/json
+
+@subject={{getSubjects.response.body.$.[0]}}
+
+###
+GET http://{{CBASE_URL}}/subjects/{{subject}}/versions
+Content-Type: application/json
+
+###
+DELETE http://{{CBASE_URL}}/subjects/{{subject}}/versions/2
+Content-Type: application/json
+
+###
+GET http://{{CBASE_URL}}/subjects/{{subject}}/versions/1/schema
+
+

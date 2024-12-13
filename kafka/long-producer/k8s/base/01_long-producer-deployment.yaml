@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: long-producer
+  labels:
+    app.kubernetes.io/managed-by: java
+    app.kubernetes.io/name: long-producer
+    app.kubernetes.io/version: '1.0'
+    app.openshift.io/runtime: java
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: long-producer
+      app.kubernetes.io/version: '1.0'
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: java
+        app.kubernetes.io/version: '1.0'
+        app.kubernetes.io/name: long-producer
+        app.openshift.io/runtime: java
+    spec:
+      containers:
+      - name: long-producer
+        image: long-producer:1.0
+        resources:
+          limits:
+            cpu: '300m'
+            memory: 300Mi
+          requests:
+            cpu: '100m'
+            memory: 100Mi
+        envFrom:
+        - configMapRef:
+            name: long-producer-env
+        imagePullPolicy: Always

@@ -1,0 +1,59 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    strimzi.io/cluster: event-broker-dr
+  name: kuser
+spec:
+  authentication:
+    password:
+      valueFrom:
+        secretKeyRef:
+          key: KUSER_PWD
+          name: kafkausers-secrets
+    type: scram-sha-512
+  authorization:
+    acls:
+    - host: '*'
+      operation: Read
+      resource:
+        name: my-topic
+        patternType: literal
+        type: topic
+      type: allow
+    - host: '*'
+      operation: Describe
+      resource:
+        name: my-topic
+        patternType: literal
+        type: topic
+      type: allow
+    - host: '*'
+      operation: Read
+      resource:
+        name: my-group
+        patternType: literal
+        type: group
+      type: allow
+    - host: '*'
+      operation: Write
+      resource:
+        name: my-topic
+        patternType: literal
+        type: topic
+      type: allow
+    - host: '*'
+      operation: Create
+      resource:
+        name: my-topic
+        patternType: literal
+        type: topic
+      type: allow
+    - host: '*'
+      operation: Describe
+      resource:
+        name: my-topic
+        patternType: literal
+        type: topic
+      type: allow
+    type: simple

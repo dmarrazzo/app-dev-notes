@@ -1,0 +1,21 @@
+# hidden dir
+**/.*
+!/.gitignore
+
+/bin/
+**/target/
+*.jpage
+**/project.repositories
+*.ucls
+*.backup
+
+*.crt
+*.jks
+*.pem
+
+# info sensible notes
+pvt/
+
+# course material
+kafka/kafka-streams/code/
+kafka/kafka-streams/kafka-streams-course

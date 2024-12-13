@@ -1,0 +1,49 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaMirrorMaker2
+metadata: 
+  name: my-mirror-maker2
+spec: 
+  clusters: 
+    - 
+      alias: my-cluster-source
+      authentication: 
+        clientId: "f0e42480-47d4-47b6-ad03-b7c6c77702e4" # The Client ID for the service account for the source Kafka cluster
+        clientSecret: # A reference to a Kubernetes Secret that contains the Client Secret for the service account for the source Kafka cluster
+          key: client-secret
+          secretName: source-client-secret
+        tokenEndpointUri: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
+        type: oauth # Red Hat OpenShift Streams for Apache Kafka prefers OAuth for connections
+      bootstrapServers: "dm-bus-cbppg-n-ocpgubcoc--g.bf2.kafka.rhcloud.com:443" # The bootstrap server host for the source cluster
+      tls: # Red Hat OpenShift Streams for Apache Kafka requires the use of TLS with the built in trusted certificates
+        trustedCertificates: []
+    - 
+      alias: my-cluster-target
+      bootstrapServers: my-cluster-kafka-bootstrap:9092
+      # tls:
+      #   trustedCertificates:
+      #     - secretName: my-cluster-cluster-ca-cert
+      #       certificate: ca.crt
+      config: # Red Hat OpenShift Streams for Apache Kafka requires a replication factor of 3 for all topics
+        config.storage.replication.factor: -1
+        offset.storage.replication.factor: -1
+        status.storage.replication.factor: -1
+  connectCluster: my-cluster-target
+  mirrors: 
+    - 
+      checkpointConnector: 
+        config: 
+          checkpoints.topic.replication.factor: 3 # Red Hat OpenShift Streams for Apache Kafka requires a replication factor of 3 for all topics
+          emit.checkpoints.interval.seconds: 60 # Setting sync interval to 60 seconds is useful for debugging
+          refresh.groups.interval.seconds: 60 # Setting sync interval to 60 seconds is useful for debugging
+          sync.group.offsets.enabled: true # Enable sync'ing offsets
+          sync.group.offsets.interval.seconds: 60 # Setting sync interval to 60 seconds is useful for debugging
+      sourceCluster: my-cluster-source
+      sourceConnector: 
+        config: 
+          refresh.topics.interval.seconds: 60 # Red Hat OpenShift Streams for Apache Kafka requires a replication factor of 3 for all topics
+          replication.factor: 3  # Red Hat OpenShift Streams for Apache Kafka requires a replication factor of 3 for all topics
+          sync.topic.acls.enabled: true # Enable sync'ing offsets
+      targetCluster: my-cluster-target
+      topicsPattern: .* # Sync all topics
+  replicas: 1 # Running a single replica of MirrorMaker makes debugging the logs easier
+

@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ./base/01_long-producer-deployment.yaml
+
+commonLabels:
+  app: long-producer
+  app.kubernetes.io/part-of: event-application
+
+configMapGenerator:
+- name: long-producer-env
+  literals:
+  - KAFKA_BOOTSTRAP_SERVERS=my-cluster-kafka-bootstrap:9092
+  - GEN_SLEEP=100
+  - MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION=100
+  options:
+    disableNameSuffixHash: true

@@ -1,0 +1,27 @@
+{
+  "name": "Event",
+  "namespace": "com.github.tillias.spbka.schema.avro",
+  "type": "record",
+  "doc": "Avro Schema for Event v2",
+  "fields" : [ {
+    "name" : "name",
+    "type" : "string"
+  }, {
+    "name" : "description",
+    "type" : "string"
+  },
+  {
+    "name" : "category",
+    "type" : "string"
+  },
+  {
+    "name" : "comment",
+    "type" : "string"
+  },
+  {
+    "name" : "createdOn",
+    "type" : "int",
+    "logicalType": "timestamp-millis"
+  }
+  ]
+}

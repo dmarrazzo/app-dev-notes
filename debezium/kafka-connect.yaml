@@ -1,0 +1,34 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: 'debezium'
+  annotations:
+    strimzi.io/use-connector-resources: 'true'
+spec:
+  version: 3.1.0
+  replicas: 1
+  build:
+    output:
+      type: docker
+      image: image-registry.openshift-image-registry.svc:5000/debezium/debezium-streams-connect:1.1
+    plugins:
+      - name: debezium-connector-mysql
+        artifacts:
+          - type: zip
+            url: https://maven.repository.redhat.com/ga/io/debezium/debezium-connector-mysql/1.7.2.Final-redhat-00003/debezium-connector-mysql-1.7.2.Final-redhat-00003-plugin.zip
+          - type: zip
+            url: https://maven.repository.redhat.com/ga/io/debezium/debezium-scripting/1.7.2.Final-redhat-00003/debezium-scripting-1.7.2.Final-redhat-00003.zip
+  bootstrapServers: 'my-cluster-kafka-bootstrap:9092'
+  config:
+    topic.creation.enable: true
+    group.id: connect-cluster
+    offset.storage.topic: connect-cluster-offsets
+    config.storage.topic: connect-cluster-configs
+    status.storage.topic: connect-cluster-status
+    config.storage.replication.factor: -1
+    offset.storage.replication.factor: -1
+    status.storage.replication.factor: -1
+  # tls:
+  #   trustedCertificates:
+  #     - secretName: my-cluster-cluster-ca-cert
+  #       certificate: ca.crt

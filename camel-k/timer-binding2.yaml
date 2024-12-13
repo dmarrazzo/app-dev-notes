@@ -1,0 +1,18 @@
+kind: KameletBinding
+apiVersion: camel.apache.org/v1alpha1
+metadata:
+  name: timer2-source-binding
+spec:
+  source:
+    ref:
+      kind: Kamelet
+      apiVersion: camel.apache.org/v1alpha1
+      name: timer-source
+    properties:
+      message: timer2
+      period: 2000
+  sink:
+    ref:
+      kind: Kamelet
+      apiVersion: camel.apache.org/v1alpha1
+      name: log-sink
