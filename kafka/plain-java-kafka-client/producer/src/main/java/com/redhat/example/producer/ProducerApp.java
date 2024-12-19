@@ -1,4 +1,4 @@
-package com.redhat.telemetry.producer;
+package com.redhat.example.producer;
 
 import java.util.Properties;
 import java.util.Random;
@@ -14,7 +14,7 @@ import org.apache.kafka.common.config.SslConfigs;
 
 public class ProducerApp {
 
-    final static public String TOPIC = "telemetry";
+    final static public String TOPIC = "plain-kafka-client";
 
     public static Properties configureProperties() {
         Properties props = new Properties();

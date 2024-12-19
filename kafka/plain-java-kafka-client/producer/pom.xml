@@ -3,15 +3,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.redhat.telemetry.producer</groupId>
+  <groupId>com.redhat.example.producer</groupId>
   <artifactId>producer</artifactId>
   <version>1.0</version>
   <name>producer</name>
   <packaging>jar</packaging>
 
   <parent>
-    <groupId>com.redhat.telemetry</groupId>
-    <artifactId>telemetry</artifactId>
+    <groupId>com.redhat.example</groupId>
+    <artifactId>plain-kafka-client</artifactId>
     <version>1.0</version>
   </parent>
 
@@ -50,7 +50,7 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>com.redhat.telemetry.producer.ProducerApp</mainClass>
+          <mainClass>com.redhat.example.producer.ProducerApp</mainClass>
           <arguments>
             <argument>-Djavax.net.debug=all -Xms256m</argument>
           </arguments>
@@ -79,7 +79,7 @@
               </filters>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.redhat.telemetry.producer.ProducerApp</mainClass>
+                  <mainClass>com.redhat.example.producer.ProducerApp</mainClass>
                 </transformer>
               </transformers>
             </configuration>

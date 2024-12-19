@@ -1,4 +1,4 @@
-package com.redhat.telemetry.consumer;
+package com.redhat.example.consumer;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -15,7 +15,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.SaslConfigs;
 import org.apache.kafka.common.config.SslConfigs;
 
-import com.redhat.telemetry.producer.ProducerApp;
+import com.redhat.example.producer.ProducerApp;
 
 public class ConsumerApp {
     public static Properties configureProperties() {
@@ -69,7 +69,7 @@ public class ConsumerApp {
                 }
             }
         } catch (Throwable t) {
-            // DO NOTHING
+            t.printStackTrace();
         }
     }
 }

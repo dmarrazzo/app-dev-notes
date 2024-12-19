@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.redhat.telemetry</groupId>
-    <artifactId>telemetry</artifactId>
+    <groupId>com.redhat.example</groupId>
+    <artifactId>plain-kafka-client</artifactId>
     <version>1.0</version>
-    <name>telemetry</name>
+    <name>plain-kafka-client</name>
     <packaging>pom</packaging>
 
     <modules>
