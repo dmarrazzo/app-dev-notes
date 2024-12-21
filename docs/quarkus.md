@@ -1,33 +1,27 @@
 Quarkus
 ================================================
 
-https://access.redhat.com/documentation/en-us/red_hat_build_of_quarkus/2.7
+[Official Documentation](https://access.redhat.com/documentation/en-us/red_hat_build_of_quarkus/)
 
 Create project
 ------------------------------------------------
 
 ```sh
-mvn com.redhat.quarkus.platform:quarkus-maven-plugin:3.8.6.redhat-00005:create \
-    -DprojectGroupId=org.acme \
+mvn com.redhat.quarkus.platform:quarkus-maven-plugin:3.15.2.redhat-00003:create \
+    -DprojectGroupId=com.redhat.example \
     -DprojectArtifactId=getting-started \
     -DplatformGroupId=com.redhat.quarkus.platform \
-    -DplatformVersion=3.8.6.redhat-00005 \
-    -DclassName="org.acme.quickstart.GreetingResource" \
-    -Dpath="/hello"
+    -DplatformVersion=3.15.2.redhat-00003
 ```
 
 Versions of Red Hat Built:
 
 | Release | JDK    | Version                    | OCP  |
 |---------|--------|----------------------------|------|
-| 3.15.x  | 21     |3.15.1.redhat-00003         |      |
+| 3.15.x  | 21     | 3.15.2.redhat-00003        |      |
 | 3.8.x   | 17,21  | 3.8.6.redhat-00005         | 4.15 |
 | 3.2.x   | 17     | 3.2.11.Final-redhat-00001  |      |
-| 3.2.x   | 17     | 3.2.10.Final-redhat-00002  |      |
-| 3.2.x   | 17     | 3.2.6.Final-redhat-00002   | 4.13 |
 | 2.13.x  | 11, 17 | 2.13.8.Final-redhat-00004  | 4.11 |
-| 2.7.6   | 11, 17 | 2.7.6.Final-redhat-00006   | 4.10 |
-| 2.2.x   | 11, 17 | 2.2.5.Final-redhat-00007   | 4.9  |
 
 Maven BOM https://maven.repository.redhat.com/ga/com/redhat/quarkus/platform/quarkus-bom/maven-metadata.xml
 
