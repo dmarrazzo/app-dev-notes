@@ -181,6 +181,23 @@ Override profile:
 java -jar -Dquarkus.profile=dev target/quarkus-app/quarkus-run.jar
 ```
 
+### Logging
+
+Use JBoss Logging for application logging:
+
+```java
+import io.quarkus.logging.Log;
+
+// in the method:
+Log.info("Simple!"); 
+```
+
+application.properties:
+```
+quarkus.log.level=INFO
+quarkus.log.category."org.hibernate".level=DEBUG
+```
+
 Developing REST
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -283,6 +300,21 @@ public Response create(Person person) {
 ### Enable Open API
 
 Extension: `quarkus-smallrye-openapi`
+
+```xml
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-smallrye-openapi</artifactId>
+</dependency>
+```
+
+Get the api `/q/openapi`
+
+auto-generate this Operation Id:
+
+```
+mp.openapi.extensions.smallrye.operationIdStrategy=METHOD
+```
 
 Data Persistence with Panache
 -----------------------------------------------------------------------------------------------------------------------------------
