@@ -32,6 +32,10 @@ bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17-domain.cli
 
 See [Security Configuration Changes for Java SE 17 Support in Red Hat JBoss EAP](https://access.redhat.com/articles/6956863)
 
+add management user:
+
+    bin/add-user.sh -u admin -p <password>
+
 Run EAP
 ------------------------------------------------------------------------------
 
@@ -48,16 +52,23 @@ Configure JDBC
 
 ### Install JDBC drivers
 
+From command line:
+
     $ EAP_HOME/bin/jboss-cli.sh
 
+Install the module:
 
     module add --name=MODULE_NAME --resources=PATH_TO_JDBC_JAR --dependencies=DEPENDENCIES
 
-Example
+Examples:
 
-    module add --name=com.mysql --resources=/path/to/mysql-connector-java-5.1.36-bin.jar --dependencies=javax.api,javax.transaction.api
+    module add --name=org.apache.derby --resources=~/apps/db-derby-10.14.2.0-bin/lib/derby.jar --dependencies=javax.api,javax.transaction.api
 
-[eap datasource](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.0/html/configuration_guide/datasource_management)
+Configure JDBC driver:
+
+    /subsystem=datasources/jdbc-driver=derby:add(driver-name=derby,driver-module-name=org.apache.derby)
+
+See [eap datasource](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.0/html/configuration_guide/datasource_management)
 
 ### Oracle XA Datasource
 
