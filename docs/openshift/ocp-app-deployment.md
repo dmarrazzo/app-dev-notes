@@ -52,13 +52,13 @@ buildah build -f src/main/docker/Dockerfile.jvm -t quarkus/otel-weather .
 ### Binary Build
 
 ```sh
-oc new-build --strategy docker --binary --name=funqy-knative-events-quickstart -l app=funqy-knative-events-quickstart
+oc new-build --strategy docker --binary --name=app-name -l app=app-name
 
 mkdir build
 mv target build
 cp src/main/docker/Dockerfile.jvm build/Dockerfile
 cd build/
-oc start-build funqy-knative-events-quickstart --from-dir . --follow
+oc start-build app-name --from-dir . --follow
 
 ```
 
@@ -284,6 +284,35 @@ $ oc delete istag my-image-stream:v-*
 **Important Note:**
 
 Deleting a tag doesn't necessarily remove the underlying image data from the registry. OpenShift employs an image garbage collection process that periodically cleans up unused images. To manually trigger garbage collection, you can use the `oc adm images prune` command (requires admin privileges).
+
+### Expose Internal Registry
+
+Create the route:
+
+    oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
+
+Get registry endpoint:
+
+    export REGISTRY=`oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}'`
+
+or:
+
+    set REGISTRY (oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
+
+
+### Push local image
+
+podman login:
+
+    podman login -u (oc whoami) -p (oc whoami --show-token) $REGISTRY
+
+tag the image:
+
+    podman tag image-name ${REGISTRY}/<insert OCP project>/image-name:latest
+
+Push the image:
+
+    podman push ${REGISTRY}/<insert OCP project>/image-name:latest
 
 # Troubleshooting
 
