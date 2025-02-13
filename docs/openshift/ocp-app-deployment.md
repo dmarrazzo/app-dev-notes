@@ -293,12 +293,16 @@ Create the route:
 
 Get registry endpoint:
 
-    export REGISTRY=`oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}'`
+    export REGISTRY=$(oc registry info)
 
 or:
 
-    set REGISTRY (oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
+    set REGISTRY (oc registry info)
 
+As the internal registry is secured, you have to grant the appropriate permission to use it.  On Openshift,
+it corresponds to the `registry-editor` role.
+
+    oc policy add-role-to-user registry-editor <user_name>
 
 ### Push local image
 
